@@ -1,0 +1,10 @@
+Selenium
+pyautogui
+pandas
+pymongo
+python-dotenv
+pandas
+fpdf
+flask
+flask_pymongo
+certifi

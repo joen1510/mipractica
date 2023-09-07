@@ -1,0 +1,41 @@
+from fpdf import FPDF
+def reportes(a,b):
+    pdf = FPDF(orientation='P', unit='mm', format='A4')
+    pdf.set_title(title=f"Reporte de {b}")
+    pdf.set_author(author="Ing. Jonathan Sanmartin")
+    pdf.set_subject(subject="Proyecto de Tratamiento de datos")
+    pdf.add_page()
+    pdf.set_font('Arial', '', 5)
+    pdf.text(x=190, y=2, txt="Jonathan Sanmartin")
+    pdf.set_font('Arial', 'B', 18)
+    pdf.set_text_color(60, 99, 234)
+    pdf.text(x=15,y=10, txt=f"REPORTE DEL CLIMA DE LA CIUDAD DE \"{b}\"")
+    pdf.set_font('Arial', 'B', 14)
+    pdf.set_text_color(159, 35, 60)
+    pdf.text(x=25, y=20, txt="No")
+    pdf.text(x=40, y=20, txt="Fecha")
+    pdf.text(x=67, y=20, txt="Temp_Máxima")
+    pdf.text(x=105, y=20, txt="Temp_Minima")
+    pdf.text(x=145, y=20, txt="Velocidad")
+    pdf.set_font('Arial', '', 10)
+    pdf.set_text_color(0, 0, 0)
+    f = 25
+    nu = 1
+    for documentos in a.find({}):
+        print("Ciudad:", documentos["Ciudad"])
+        print("Fecha:",documentos["Fecha"])
+        print("Temperatura Maxima:", documentos["Temperatutas"]["Temp_Max"])
+        print("Temperatura Minima:", documentos["Temperatutas"]["Temp_Min"])
+        print("Velocidad del Viento:",documentos["Temperatutas"]["vel_viento"])
+        print("*************************************************")
+        pdf.text(x=25, y=f, txt=str(nu))
+        pdf.text(x=40, y=f, txt=documentos["Fecha"])
+        pdf.text(x=80, y=f, txt=documentos["Temperatutas"]["Temp_Max"])
+        pdf.text(x=118, y=f, txt=documentos["Temperatutas"]["Temp_Min"])
+        pdf.text(x=150, y=f, txt=documentos["Temperatutas"]["vel_viento"])
+        pdf.line(25,f+2.5,170,f+2.5)
+        f+=8
+        nu+=1
+    print("Total de datos cargados: ",a.count_documents({}))
+    pdf.output(f"Reportes/REPORTE_{b}_JS.pdf")
+    pdf.output(f"Reportes/general.pdf")
