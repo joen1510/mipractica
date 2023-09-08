@@ -19,7 +19,6 @@ def home():
     lb = db.list_collection_names()
     return render_template('index.html', listadb=lb)
 #Method Post
-
 @app.route('/llamar',methods=['POST'])
 def llamar():
     env = request.form['enviar']
