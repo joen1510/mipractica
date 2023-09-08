@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, Response, jsonify, redirect, url_for
 import database as dbase
-from ciudad import Ciudad
 import subprocess
 from report import reportes
 db = dbase.dbConnection()
@@ -8,12 +7,6 @@ db = dbase.dbConnection()
 app = Flask(__name__)
 
 #Rutas de la aplicación
-"""@app.route('/')
-def home():
-    products = db['CUENCA']
-    productsReceived = products.find()
-    return render_template('index.html', ciudad = productsReceived, nomb='CUENCA', tot=products.count_documents({}))
-"""
 @app.route('/')
 def home():
     lb = db.list_collection_names()
@@ -27,9 +20,10 @@ def llamar():
     if(products.count_documents({})>0):
         reportes(products,env.upper())
         productsReceived = products.find()
-        return render_template('consulta.html', ciudad = productsReceived,nom_ciu=env,tot=products.count_documents({}))
+        return render_template('consulta.html', Productos = productsReceived,nom_prod=env,tot=products.count_documents({}))
     else:
-        return "<p>No hay datos que mostrar</p>"
+        return render_template('error.html')
+
 
 @app.route('/generar',methods=['POST'])
 def generar():

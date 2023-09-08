@@ -1,7 +1,6 @@
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from selenium.webdriver.common.by import By
-import pandas as pd
 from selenium import webdriver
 import time
 from dotenv import load_dotenv
@@ -21,7 +20,10 @@ driver = webdriver.Chrome()
 driver.get("https://www.eltiempo.es/")
 aceptar_button = driver.find_element(by=By.CSS_SELECTOR, value="#didomi-notice-agree-button")
 aceptar_button.click()
-cuadro_busqueda=driver.find_element(by=By.CSS_SELECTOR, value="input#term")
+#cuadro_busqueda=driver.find_element(by=By.CSS_SELECTOR, value="input#term")
+cuadro_busqueda=driver.find_element(by=By.XPATH, value='/html/body/header/nav/div[1]/div[2]/div/form/input')
+cuadro_busqueda.click()
+time.sleep(10)
 cuadro_busqueda.send_keys(consulta)
 cuadro_busqueda.click()
 time.sleep(2)

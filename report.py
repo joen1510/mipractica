@@ -9,33 +9,39 @@ def reportes(a,b):
     pdf.text(x=190, y=2, txt="Jonathan Sanmartin")
     pdf.set_font('Arial', 'B', 18)
     pdf.set_text_color(60, 99, 234)
-    pdf.text(x=15,y=10, txt=f"REPORTE DEL CLIMA DE LA CIUDAD DE \"{b}\"")
-    pdf.set_font('Arial', 'B', 14)
-    pdf.set_text_color(159, 35, 60)
-    pdf.text(x=25, y=20, txt="No")
-    pdf.text(x=40, y=20, txt="Fecha")
-    pdf.text(x=67, y=20, txt="Temp_Máxima")
-    pdf.text(x=105, y=20, txt="Temp_Minima")
-    pdf.text(x=145, y=20, txt="Velocidad")
-    pdf.set_font('Arial', '', 10)
-    pdf.set_text_color(0, 0, 0)
-    f = 25
+    pdf.text(x=15,y=10, txt=f"REPORTE DEL PRODUCTO \"{b}\"")
+    f = 15
     nu = 1
+    hoja=1
     for documentos in a.find({}):
-        print("Ciudad:", documentos["Ciudad"])
-        print("Fecha:",documentos["Fecha"])
-        print("Temperatura Maxima:", documentos["Temperatutas"]["Temp_Max"])
-        print("Temperatura Minima:", documentos["Temperatutas"]["Temp_Min"])
-        print("Velocidad del Viento:",documentos["Temperatutas"]["vel_viento"])
-        print("*************************************************")
-        pdf.text(x=25, y=f, txt=str(nu))
-        pdf.text(x=40, y=f, txt=documentos["Fecha"])
-        pdf.text(x=80, y=f, txt=documentos["Temperatutas"]["Temp_Max"])
-        pdf.text(x=118, y=f, txt=documentos["Temperatutas"]["Temp_Min"])
-        pdf.text(x=150, y=f, txt=documentos["Temperatutas"]["vel_viento"])
-        pdf.line(25,f+2.5,170,f+2.5)
-        f+=8
-        nu+=1
-    print("Total de datos cargados: ",a.count_documents({}))
+        try:
+            hoja += 1
+            print("articulo--> ", hoja)
+            print("Nombre", documentos["Nom_pro"])
+            print("Estado:", documentos["Est_pro"])
+            print("Precio:", documentos["Pre_pro"])
+            print("*************************************************")
+            pdf.set_font('Arial', 'B', 12)
+            pdf.set_text_color(159, 35, 60)
+            pdf.text(x=17, y=f + 8, txt="Artículo:")
+            pdf.text(x=17, y=f + 13, txt="Estado :")
+            pdf.text(x=17, y=f + 18, txt="Precio  :")
+            pdf.set_font('Arial', '', 8)
+            pdf.set_text_color(0, 0, 0)
+            pdf.text(x=10, y=f + 12, txt=str(nu))
+            pdf.text(x=38, y=f + 8, txt=documentos["Nom_pro"].encode('latin-1', 'replace').decode('latin-1'))
+            pdf.text(x=38, y=f + 13, txt=documentos["Est_pro"])
+            pdf.text(x=38, y=f + 18, txt=documentos["Pre_pro"])
+            pdf.line(10, f + 2, 200, f + 2)
+            f += 18
+            nu += 1
+            if (hoja == 15):
+                pdf.add_page()
+                hoja = 0
+                f = 15
+        except Exception as e:
+            print("Falla del Sistema", e)
+            print("eeeeeeeeeeeerroooooooooooooorrrrrrrrrrrrrrrrrrr")
+    #print("Total de datos cargados: ",a.count_documents({}))
     pdf.output(f"Reportes/REPORTE_{b}_JS.pdf")
     pdf.output(f"Reportes/general.pdf")
